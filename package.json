@@ -1,0 +1,22 @@
+{
+  "name": "fero-e2e",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+  "test": "playwright test",
+  "test:ui": "playwright test tests/ui/",
+  "test:api": "playwright test tests/api/",
+  "test:e2e": "playwright test tests/e2e/",
+  "test:headed": "playwright test --headed",
+  "report": "playwright show-report"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.3"
+  }
+}
