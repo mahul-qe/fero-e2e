@@ -258,5 +258,5 @@ On each push and pull request to main branches, the workflow:
 
 - [Playwright Documentation](https://playwright.dev/docs/intro)
 - [Page Object Model Pattern](https://playwright.dev/docs/test-pom)
-- [Ferovinum API Documentation](internal-link-to-api-docs)
-- [Test Writing Guidelines](internal-link-to-guidelines)
+- [Ferovinum API Documentation](internal-link-to-api-docs) - currently not avaliable
+- [Test Writing Guidelines](internal-link-to-guidelines) - currently not avaliable
