@@ -10,24 +10,26 @@ test.describe('End-to-End Trading Scenarios', () => {
     await tradingPage.goto();
   });
 
-  test('Complete trading workflow', async () => {
+  test('Complete trading workflow', async ({ page }) => {
     // First buy some wine
-    await tradingPage.buyStock('wine', 120, 75);
-    await tradingPage.page.waitForTimeout(1000);
+    await tradingPage.buyStock('wine', 120, 25);
+    
+    // Wait for the table to update before checking
+    await page.waitForTimeout(1000);
     
     // Verify wine was added to inventory
-    let stockRow = await tradingPage.findStockInTable('wine', 120, 75);
-    expect(stockRow).not.toBeNull();
+    let stockRow = await tradingPage.findStockInTable('wine', 120, 25);
+    expect(stockRow, 'No wine stock was found in the table after buying').not.toBeNull();
     
     // Now sell some of that wine
     await tradingPage.sellStock('wine', 140, -25);
-    await tradingPage.page.waitForTimeout(1000);
+    await page.waitForTimeout(1000);
     
     // Verify sale was added to inventory
     stockRow = await tradingPage.findStockInTable('wine', 140, -25);
-    expect(stockRow).not.toBeNull();
+    expect(stockRow, 'No wine sale was found in the table').not.toBeNull();
     
-    // Check the table has both transactions
+    // Check the table has multiple transactions
     const rows = await tradingPage.getTableRows();
     expect(rows.length).toBeGreaterThanOrEqual(2);
   });

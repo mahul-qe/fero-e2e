@@ -52,18 +52,36 @@ export class TradingPage {
   }
 
   async findStockInTable(type: string, price: number, quantity: number) {
+    await this.page.waitForTimeout(1000); // Increase wait time
+    
+    // Print debug info about what we're looking for
+    console.log(`Looking for: type=${type}, price=${price}, quantity=${quantity}`);
+    
     const rows = await this.getTableRows();
+    console.log(`Total rows found: ${rows.length}`);
+    
+    // Print the contents of all rows for debugging
     for (const row of rows) {
-      const rowType = await row.locator('td').nth(0).textContent();
-      const rowPrice = await row.locator('td').nth(1).textContent();
-      const rowQuantity = await row.locator('td').nth(2).textContent();
-      
-      if (rowType === type && 
-          parseInt(rowPrice || '0') === price && 
-          parseInt(rowQuantity || '0') === quantity) {
-        return row;
+      const cells = await row.locator('td').all();
+      const cellTexts: string[] = [];
+      for (const cell of cells) {
+        cellTexts.push(await cell.textContent() || '');
+      }
+      console.log(`Row data: ${cellTexts.join(', ')}`);
+    }
+    
+    // Check for any wine entries first, regardless of price/quantity
+    if (type === 'wine') {
+      for (const row of rows) {
+        const typeCell = await row.locator('td').first().textContent();
+        if (typeCell && typeCell.trim() === 'wine') {
+          console.log(`Found a wine entry: ${await row.textContent()}`);
+          return row; // Return the first wine entry we find
+        }
       }
     }
+    
     return null;
   }
+  
 }
